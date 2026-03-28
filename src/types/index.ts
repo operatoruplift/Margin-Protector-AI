@@ -10,6 +10,8 @@ export interface Product {
   currentInventory: number;
   reorderThreshold: number;
   status: ProductStatus;
+  shippingCost: number;
+  totalSold30d: number;
 }
 
 export type OrderStatus = "fulfilled" | "pending" | "refunded";
@@ -47,4 +49,5 @@ export interface RecommendedAction {
   description: string;
   urgency: Urgency;
   proposedExecution: string;
+  aiReasoning?: string;
 }

@@ -9,6 +9,8 @@ export const products: Product[] = [
     currentInventory: 245,
     reorderThreshold: 50,
     status: "active",
+    shippingCost: 1499,
+    totalSold30d: 87,
   },
   {
     id: "gid://shopify/Product/8002",
@@ -18,6 +20,8 @@ export const products: Product[] = [
     currentInventory: 3,
     reorderThreshold: 25,
     status: "active",
+    shippingCost: 1899,
+    totalSold30d: 41,
   },
   {
     id: "gid://shopify/Product/8003",
@@ -27,6 +31,8 @@ export const products: Product[] = [
     currentInventory: 189,
     reorderThreshold: 30,
     status: "active",
+    shippingCost: 599,
+    totalSold30d: 0,
   },
   {
     id: "gid://shopify/Product/8004",
@@ -36,6 +42,8 @@ export const products: Product[] = [
     currentInventory: 4,
     reorderThreshold: 40,
     status: "active",
+    shippingCost: 899,
+    totalSold30d: 156,
   },
   {
     id: "gid://shopify/Product/8005",
@@ -45,6 +53,8 @@ export const products: Product[] = [
     currentInventory: 67,
     reorderThreshold: 20,
     status: "active",
+    shippingCost: 2499,
+    totalSold30d: 12,
   },
   {
     id: "gid://shopify/Product/8006",
@@ -54,6 +64,8 @@ export const products: Product[] = [
     currentInventory: 312,
     reorderThreshold: 75,
     status: "active",
+    shippingCost: 799,
+    totalSold30d: 0,
   },
   {
     id: "gid://shopify/Product/8007",
@@ -63,6 +75,8 @@ export const products: Product[] = [
     currentInventory: 28,
     reorderThreshold: 15,
     status: "draft",
+    shippingCost: 699,
+    totalSold30d: 3,
   },
   {
     id: "gid://shopify/Product/8008",
@@ -72,6 +86,8 @@ export const products: Product[] = [
     currentInventory: 0,
     reorderThreshold: 30,
     status: "archived",
+    shippingCost: 1299,
+    totalSold30d: 0,
   },
 ];
 

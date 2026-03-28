@@ -46,6 +46,15 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --animate-shiny-text: shiny-text 8s infinite;
+  @keyframes shiny-text {
+  0%, 90%, 100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+    }
+  30%, 60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
 }
 
 :root {
@@ -83,38 +92,46 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* ── Premium Zinc Dark Mode (Bloomberg meets Vercel) ── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Backgrounds & Surfaces — Zinc-based, never pure black */
+  --background: #09090B;        /* Zinc-950: deepest layer */
+  --foreground: #FAFAFA;        /* Zinc-50: primary text */
+  --card: #18181B;              /* Zinc-900: card surface */
+  --card-foreground: #FAFAFA;
+  --popover: #27272A;           /* Zinc-800: elevated surface */
+  --popover-foreground: #FAFAFA;
+
+  /* AI-first accent: Indigo */
+  --primary: #6366F1;           /* Indigo-500: AI actions */
+  --primary-foreground: #FFFFFF;
+  --secondary: #27272A;         /* Zinc-800 */
+  --secondary-foreground: #FAFAFA;
+  --muted: #18181B;             /* Zinc-900 */
+  --muted-foreground: #A1A1AA;  /* Zinc-400: body copy, labels */
+  --accent: #27272A;            /* Zinc-800 */
+  --accent-foreground: #FAFAFA;
+  --destructive: #F87171;       /* Red-400: errors, bleeding */
+
+  /* Borders — crisp 1px Zinc-800 everywhere */
+  --border: #27272A;
+  --input: #27272A;
+  --ring: #6366F1;              /* Indigo-500 focus ring */
+
+  --chart-1: #6366F1;
+  --chart-2: #818CF8;
+  --chart-3: #34D399;
+  --chart-4: #FBBF24;
+  --chart-5: #F87171;
+
+  --sidebar: #09090B;
+  --sidebar-foreground: #FAFAFA;
+  --sidebar-primary: #6366F1;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #18181B;
+  --sidebar-accent-foreground: #FAFAFA;
+  --sidebar-border: #27272A;
+  --sidebar-ring: #6366F1;
 }
 
 @layer base {
@@ -126,5 +143,92 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ── AI Scanning Border Sweep ── */
+@property --sweep-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-sweep {
+  to { --sweep-angle: 360deg; }
+}
+
+.ai-scanning-border {
+  position: relative;
+  isolation: isolate;
+}
+
+.ai-scanning-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--sweep-angle),
+    transparent 0%,
+    #6366F1 10%,
+    #818CF8 15%,
+    transparent 25%
+  );
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: border-sweep 2.5s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Print Styles: Executive Report ── */
+@media print {
+  /* Reset to white background, black text */
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Hide the entire dashboard UI */
+  .no-print,
+  aside,
+  header,
+  main,
+  [data-sonner-toaster],
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  /* Show only the print report */
+  .print-report {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-report * {
+    color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force page breaks for readability */
+  .print-page-break {
+    page-break-before: always;
+  }
+
+  @page {
+    margin: 0.75in;
+    size: letter;
   }
 }
