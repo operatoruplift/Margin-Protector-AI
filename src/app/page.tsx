@@ -83,7 +83,7 @@ We authorize expedited freight if standard lead times exceed 5
 business days.
 
 Best regards,
-AI Commerce CEO — Automated Procurement
+AI Margin Protector — Automated Procurement
 procurement@ai-commerce.io`;
 }
 
@@ -652,7 +652,7 @@ export default function Dashboard() {
             </DialogDescription>
           </DialogHeader>
           {restockDialogAction && (
-            <pre className="max-h-72 overflow-auto rounded-lg border border-[#27272A] bg-[#0A0A0C] p-4 font-mono text-[11px] leading-relaxed text-indigo-400">
+            <pre className="max-h-72 overflow-auto rounded-lg border border-[#27272A] bg-[#0A0A0C] p-4 font-mono text-[11px] leading-relaxed text-emerald-400">
               {buildPurchaseOrderEmail(restockDialogAction)}
             </pre>
           )}
@@ -665,7 +665,7 @@ export default function Dashboard() {
             </button>
             <button
               onClick={confirmRestock}
-              className="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all hover:bg-indigo-400 active:scale-95"
+              className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95"
             >
               Send Purchase Order
             </button>
@@ -694,8 +694,8 @@ export default function Dashboard() {
               </span>
             </div>
             {sheetPhase === "sending" && (
-              <span className="flex items-center gap-1.5 text-[10px] text-indigo-400">
-                <span className="inline-block size-1.5 animate-pulse rounded-full bg-indigo-400" />
+              <span className="flex items-center gap-1.5 text-[10px] text-emerald-400">
+                <span className="inline-block size-1.5 animate-pulse rounded-full bg-emerald-400" />
                 Sending
               </span>
             )}
@@ -730,7 +730,7 @@ export default function Dashboard() {
                     >
                       {sheetAction.urgency}
                     </span>
-                    <span className="rounded bg-indigo-500/10 px-1.5 py-0.5 font-mono text-[10px] text-indigo-400">
+                    <span className="rounded bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[10px] text-emerald-400">
                       {sheetAction.type}
                     </span>
                   </div>
@@ -745,7 +745,7 @@ export default function Dashboard() {
                 {/* Request block */}
                 <div>
                   <div className="mb-2 flex items-center gap-2">
-                    <span className="rounded bg-indigo-500/10 px-1.5 py-0.5 font-mono text-[10px] font-medium text-indigo-400">
+                    <span className="rounded bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[10px] font-medium text-emerald-400">
                       {sheetPayload.method}
                     </span>
                     <span className="font-mono text-[10px] text-zinc-500">
@@ -882,7 +882,7 @@ export default function Dashboard() {
                       { duration: 3000 }
                     );
                   }}
-                  className="flex items-center gap-1.5 font-mono text-xs text-indigo-400 transition-colors hover:text-indigo-300"
+                  className="flex items-center gap-1.5 font-mono text-xs text-emerald-400 transition-colors hover:text-emerald-300"
                 >
                   <svg
                     width="12"
@@ -902,7 +902,7 @@ export default function Dashboard() {
                 </a>
                 <button
                   onClick={closeSheet}
-                  className="rounded-lg bg-indigo-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all hover:bg-indigo-400 active:scale-95"
+                  className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95"
                 >
                   Done
                 </button>
@@ -928,8 +928,8 @@ export default function Dashboard() {
               </span>
             </div>
             {!auditComplete && auditLogs.length > 0 && (
-              <span className="flex items-center gap-1.5 text-[10px] text-indigo-400">
-                <span className="inline-block size-1.5 animate-pulse rounded-full bg-indigo-400" />
+              <span className="flex items-center gap-1.5 text-[10px] text-emerald-400">
+                <span className="inline-block size-1.5 animate-pulse rounded-full bg-emerald-400" />
                 Computing
               </span>
             )}
@@ -945,7 +945,7 @@ export default function Dashboard() {
           >
             <div className="space-y-1.5 font-mono text-xs leading-relaxed">
               <div className="text-zinc-600">
-                <span className="text-indigo-400">$</span> prime-intellect run
+                <span className="text-emerald-400">$</span> prime-intellect run
                 margin-audit --store=ecotextiles --mode=heuristic
               </div>
 
@@ -979,7 +979,7 @@ export default function Dashboard() {
               {!auditComplete &&
                 auditLogs.length > 0 &&
                 !auditLogs[auditLogs.length - 1]?.startsWith("✗") && (
-                  <div className="flex items-center gap-1.5 text-indigo-400">
+                  <div className="flex items-center gap-1.5 text-emerald-400">
                     <span className="inline-block animate-pulse">&#9646;</span>
                   </div>
                 )}
@@ -1000,7 +1000,7 @@ export default function Dashboard() {
                 </span>
                 <button
                   onClick={() => setAuditOpen(false)}
-                  className="rounded-lg bg-indigo-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all hover:bg-indigo-400 active:scale-95"
+                  className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95"
                 >
                   View Strategies
                 </button>
@@ -1014,12 +1014,14 @@ export default function Dashboard() {
       <aside className="flex w-64 shrink-0 flex-col border-r border-[#27272A] bg-[#09090B]">
         {/* Logo + Store Switcher */}
         <div className="flex h-16 items-center gap-3 border-b border-[#27272A] px-5">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-indigo-500 shadow-[0_0_12px_rgba(99,102,241,0.3)]">
-            <span className="text-xs font-bold text-white">AI</span>
+          <div className="flex size-8 items-center justify-center rounded-lg bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold tracking-tight text-zinc-50">
-              Commerce CEO
+              Margin Protector
             </span>
             <span className="text-[10px] text-zinc-500">EcoTextiles Store</span>
           </div>
@@ -1030,9 +1032,17 @@ export default function Dashboard() {
           {navItems.map((item) => (
             <button
               key={item.label}
+              onClick={() => {
+                if (!item.active) {
+                  toast.info(`${item.label} — coming in v2`, {
+                    description: "This feature is on the roadmap.",
+                    duration: 2000,
+                  });
+                }
+              }}
               className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
                 item.active
-                  ? "border-l-2 border-indigo-500 bg-zinc-800/50 font-medium text-zinc-50"
+                  ? "border-l-2 border-emerald-500 bg-zinc-800/50 font-medium text-zinc-50"
                   : "border-l-2 border-transparent text-zinc-400 hover:bg-zinc-800/30 hover:text-zinc-200"
               }`}
             >
@@ -1072,7 +1082,10 @@ export default function Dashboard() {
           </div>
 
           {/* Search */}
-          <div className="hidden items-center gap-2 rounded-md border border-[#27272A] bg-[#18181B] px-3 py-1.5 md:flex">
+          <button
+            onClick={() => toast.info("Search — coming in v2", { duration: 2000 })}
+            className="hidden cursor-pointer items-center gap-2 rounded-md border border-[#27272A] bg-[#18181B] px-3 py-1.5 transition-colors hover:border-emerald-500/30 md:flex"
+          >
             <svg
               className="size-3.5 text-zinc-500"
               fill="none"
@@ -1090,7 +1103,7 @@ export default function Dashboard() {
             <kbd className="rounded border border-[#27272A] bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500">
               &#8984;K
             </kbd>
-          </div>
+          </button>
 
           {/* Right: Status + Report + Run Scan */}
           <div className="flex items-center gap-4">
@@ -1104,7 +1117,7 @@ export default function Dashboard() {
             {agentRan && actions.length > 0 && (
               <button
                 onClick={() => window.print()}
-                className="no-print flex items-center gap-1.5 rounded-lg border border-[#27272A] bg-[#18181B] px-3 py-1.5 text-xs font-medium text-zinc-300 transition-all hover:border-indigo-500/40 hover:bg-indigo-500/10 hover:text-indigo-400"
+                className="no-print flex items-center gap-1.5 rounded-lg border border-[#27272A] bg-[#18181B] px-3 py-1.5 text-xs font-medium text-zinc-300 transition-all hover:border-emerald-500/40 hover:bg-emerald-500/10 hover:text-emerald-400"
               >
                 <svg
                   width="14"
@@ -1171,8 +1184,8 @@ export default function Dashboard() {
                   >
                     <MagicCard
                       mode="orb"
-                      glowFrom="#6366F1"
-                      glowTo="#818CF8"
+                      glowFrom="#10B981"
+                      glowTo="#34D399"
                       glowSize={300}
                       glowBlur={40}
                       glowOpacity={0.6}
@@ -1414,7 +1427,7 @@ export default function Dashboard() {
                       <div className="flex flex-col gap-3">
                         {/* Prompt */}
                         <div className="font-mono text-xs text-zinc-400">
-                          <span className="text-indigo-400">$</span>{" "}
+                          <span className="text-emerald-400">$</span>{" "}
                           margin-protector --analyze --store=ecotextiles
                         </div>
 
@@ -1439,8 +1452,8 @@ export default function Dashboard() {
                               />
                               <div className="pointer-events-none absolute inset-0 bg-[#0A0A0C] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
                               <div className="relative flex items-center justify-center">
-                                <span className="absolute size-20 animate-[ping_4s_ease-in-out_infinite] rounded-full bg-indigo-500/5" />
-                                <span className="absolute size-12 animate-[ping_4s_ease-in-out_0.6s_infinite] rounded-full bg-indigo-500/5" />
+                                <span className="absolute size-20 animate-[ping_4s_ease-in-out_infinite] rounded-full bg-emerald-500/5" />
+                                <span className="absolute size-12 animate-[ping_4s_ease-in-out_0.6s_infinite] rounded-full bg-emerald-500/5" />
                                 <div className="relative flex size-14 items-center justify-center rounded-2xl border border-[#27272A] bg-zinc-800/50">
                                   <svg
                                     width="22"
@@ -1451,7 +1464,7 @@ export default function Dashboard() {
                                     strokeWidth="1.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="text-indigo-400"
+                                    className="text-emerald-400"
                                   >
                                     <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" />
                                   </svg>
@@ -1470,7 +1483,8 @@ export default function Dashboard() {
 
                               <button
                                 onClick={runAudit}
-                                className="rounded-lg bg-indigo-500 px-5 py-2.5 font-mono text-sm font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all hover:bg-indigo-400 active:scale-95"
+                                disabled={auditOpen && !auditComplete}
+                                className="rounded-lg bg-emerald-500 px-5 py-2.5 font-mono text-sm font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                               >
                                 Run Audit
                               </button>
@@ -1524,7 +1538,7 @@ export default function Dashboard() {
                                 className="font-mono text-xs text-emerald-400"
                               >
                                 ✓ Scan complete &mdash;{" "}
-                                <span className="rounded bg-indigo-500/10 px-1 text-indigo-400">
+                                <span className="rounded bg-emerald-500/10 px-1 text-emerald-400">
                                   {actions.length} strategies
                                 </span>{" "}
                                 generated
@@ -1571,7 +1585,7 @@ export default function Dashboard() {
                                       className={`group overflow-hidden rounded-xl border p-5 backdrop-blur-sm transition-all duration-200 ${
                                         isCompleted && !isCollapsing
                                           ? "border-emerald-400/20 bg-emerald-400/[0.03]"
-                                          : "border-zinc-800/80 bg-zinc-900/40 hover:border-zinc-700 hover:bg-zinc-800/40"
+                                          : "border-zinc-800/80 bg-zinc-900/40 hover:border-emerald-500/50 hover:bg-zinc-800/40 transition-all"
                                       }`}
                                     >
                                       <div className="flex items-start justify-between gap-3">
@@ -1598,7 +1612,7 @@ export default function Dashboard() {
                                               className={`text-sm font-medium transition-colors ${
                                                 isCompleted
                                                   ? "text-emerald-400"
-                                                  : "text-zinc-200 group-hover:text-indigo-400"
+                                                  : "text-zinc-200 group-hover:text-emerald-400"
                                               }`}
                                             />
                                             <p className="mt-0.5 text-xs text-zinc-500">
@@ -1636,7 +1650,7 @@ export default function Dashboard() {
                                         <ScrambleText
                                           text={action.proposedExecution}
                                           active={scrambleActive}
-                                          className="text-indigo-400/80"
+                                          className="text-emerald-400/80"
                                         />
                                       </div>
 
@@ -1648,7 +1662,7 @@ export default function Dashboard() {
                                               e.stopPropagation();
                                               toggleReasoning(action.id);
                                             }}
-                                            className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-500 transition-colors hover:text-indigo-400"
+                                            className="flex items-center gap-1.5 text-[10px] font-medium text-zinc-500 transition-colors hover:text-emerald-400"
                                           >
                                             <svg
                                               width="10"
@@ -1674,7 +1688,7 @@ export default function Dashboard() {
                                                 transition={{ duration: 0.2, ease: "easeOut" as const }}
                                                 className="overflow-hidden"
                                               >
-                                                <div className="mt-2 rounded-md border border-indigo-500/10 bg-indigo-500/[0.03] px-3 py-2.5">
+                                                <div className="mt-2 rounded-md border border-emerald-500/10 bg-emerald-500/[0.03] px-3 py-2.5">
                                                   <p className="font-mono text-[10px] leading-relaxed text-zinc-400">
                                                     {action.aiReasoning}
                                                   </p>
@@ -1696,7 +1710,7 @@ export default function Dashboard() {
                                               Active in Shopify
                                             </span>
                                           ) : isSyncing ? (
-                                            <span className="flex items-center gap-1.5 rounded-lg bg-indigo-500/10 px-4 py-1.5 text-xs font-medium text-indigo-400">
+                                            <span className="flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-4 py-1.5 text-xs font-medium text-emerald-400">
                                               <svg className="size-3 animate-spin" viewBox="0 0 24 24" fill="none">
                                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
@@ -1729,7 +1743,7 @@ export default function Dashboard() {
                                                   e.stopPropagation();
                                                   executeAction(action);
                                                 }}
-                                                className="rounded-lg bg-indigo-500 px-4 py-1.5 text-xs font-medium text-white shadow-[0_0_15px_rgba(99,102,241,0.4)] transition-all hover:bg-indigo-400 active:scale-95 disabled:opacity-80"
+                                                className="rounded-lg bg-emerald-500 px-4 py-1.5 text-xs font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95 disabled:opacity-80"
                                               >
                                                 {isExecuting ? (
                                                   <span className="flex items-center gap-1.5">
@@ -1766,7 +1780,7 @@ export default function Dashboard() {
                           </span>
                           <button
                             onClick={runAudit}
-                            className="text-xs text-zinc-400 transition-colors hover:text-indigo-400"
+                            className="text-xs text-zinc-400 transition-colors hover:text-emerald-400"
                           >
                             Re-run Audit
                           </button>
@@ -1785,14 +1799,14 @@ export default function Dashboard() {
       <div className="print-report" style={{ display: "none" }}>
         <div style={{ fontFamily: "Geist, Inter, system-ui, sans-serif", color: "#09090B", maxWidth: 720, margin: "0 auto" }}>
           {/* Report Header */}
-          <div style={{ borderBottom: "2px solid #6366F1", paddingBottom: 24, marginBottom: 32 }}>
+          <div style={{ borderBottom: "2px solid #10B981", paddingBottom: 24, marginBottom: 32 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 8, background: "#6366F1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: 36, height: 36, borderRadius: 8, background: "#10B981", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <span style={{ color: "#fff", fontSize: 14, fontWeight: 700 }}>AI</span>
               </div>
               <div>
                 <div style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-0.025em" }}>
-                  Commerce CEO
+                  Margin Protector
                 </div>
                 <div style={{ fontSize: 11, color: "#71717A", textTransform: "uppercase", letterSpacing: "0.05em" }}>
                   Executive Intelligence Report
@@ -1836,7 +1850,7 @@ export default function Dashboard() {
                   <div key={action.id} style={{ padding: 16, border: "1px solid #E4E4E7", borderRadius: 8, borderLeft: `3px solid ${action.urgency === "HIGH" ? "#EF4444" : action.urgency === "MEDIUM" ? "#F59E0B" : "#A1A1AA"}` }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <span style={{ fontSize: 11, fontWeight: 600, fontFamily: "Geist Mono, monospace", color: "#6366F1", background: "#EEF2FF", padding: "2px 6px", borderRadius: 4 }}>
+                        <span style={{ fontSize: 11, fontWeight: 600, fontFamily: "Geist Mono, monospace", color: "#10B981", background: "#ECFDF5", padding: "2px 6px", borderRadius: 4 }}>
                           {action.type}
                         </span>
                         <span style={{ fontSize: 13, fontWeight: 600 }}>
@@ -1857,7 +1871,7 @@ export default function Dashboard() {
                     <p style={{ fontSize: 12, lineHeight: 1.6, color: "#52525B", marginBottom: 8 }}>
                       {action.description}
                     </p>
-                    <div style={{ fontSize: 11, fontFamily: "Geist Mono, monospace", color: "#6366F1", background: "#FAFAFA", padding: "8px 12px", borderRadius: 6, border: "1px solid #E4E4E7" }}>
+                    <div style={{ fontSize: 11, fontFamily: "Geist Mono, monospace", color: "#10B981", background: "#FAFAFA", padding: "8px 12px", borderRadius: 6, border: "1px solid #E4E4E7" }}>
                       Proposed: {action.proposedExecution}
                     </div>
                   </div>
@@ -1906,7 +1920,7 @@ export default function Dashboard() {
 
           {/* Footer */}
           <div style={{ borderTop: "1px solid #E4E4E7", paddingTop: 16, display: "flex", justifyContent: "space-between", fontSize: 10, color: "#A1A1AA" }}>
-            <span>AI Commerce CEO — Confidential</span>
+            <span>AI Margin Protector — Confidential</span>
             <span>Powered by Prime Intellect Compute Network</span>
           </div>
         </div>

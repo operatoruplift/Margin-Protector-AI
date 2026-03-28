@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Commerce CEO",
-  description: "Autonomous AI agent managing your Shopify store",
+  title: "Margin Protector AI",
+  description: "Autonomous profit recovery for Shopify merchants",
 };
 
 export default function RootLayout({

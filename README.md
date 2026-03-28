@@ -1,33 +1,30 @@
-# AI Commerce CEO
+# 🛡️ Margin Protector AI
 
-**Autonomous margin-recovery agent for Shopify merchants.**
+### Autonomous profit recovery for Shopify merchants.
 
-An AI-powered operations dashboard that connects to a live Shopify store, analyzes real-time inventory and order data, identifies profit leakage in seconds, and deploys fixes directly back to Shopify with a single click.
+> Every Shopify store is leaking money. Dead inventory bleeds capital. Shipping costs erode margins silently. Conversion dips go unnoticed for days. **Margin Protector AI** finds and fixes these leaks autonomously — connecting to your live store, analyzing every SKU, and deploying fixes back to Shopify in a single click.
 
-> Built for the OpenClaw Hackathon 2026.
-
----
-
-## Live Demo
-
-**Production:** [nicosia-nine.vercel.app](https://nicosia-nine.vercel.app)
+**[Live Demo →](https://nicosia-nine.vercel.app)**
 
 ---
 
-## What It Does
+## Core Features
 
-Most Shopify merchants are bleeding money and don't know it. Dead stock ties up capital. Shipping costs eat margins silently. Conversion dips go unnoticed for days. By the time a human spots the problem, thousands are already lost.
+- **Deterministic Stale Inventory Detection** — Flags SKUs with 50+ units and zero sales in 30 days. Calculates exact holding cost burn rate and proposes clearance bundles with break-even timelines.
 
-**AI Commerce CEO** solves this by acting as an autonomous operating system for your store:
+- **Real-time Holding Cost Calculation** — Every action card shows transparent "AI Thinking" math: dollar amounts, ROI percentages, ROAS multipliers, and monthly capital drain. No black boxes.
 
-1. **Connects to Shopify** — Ingests live product inventory, order history, and analytics data via the Shopify Admin API.
-2. **Runs 6 Margin-Recovery Heuristics** — Deterministic AI models evaluate every SKU against holding costs, shipping ratios, sell-through velocity, conversion benchmarks, refund anomalies, and fulfillment bottlenecks.
-3. **Shows Its Math** — Every recommendation includes a transparent "AI Thinking" panel with exact calculations: dollar amounts, ROI percentages, break-even timelines. No black-box vibes.
-4. **Deploys Fixes to Shopify** — One click generates the exact GraphQL mutation (price rules, discount codes, inventory adjustments) and pushes it to the Shopify Admin API. The merchant sees "Active in Shopify" in under 2 seconds.
+- **Shipping Margin Erosion Alerts** — Detects when shipping costs exceed 40% of unit price. Models annual margin loss and proposes price adjustments with A/B test conversion impact estimates.
+
+- **1-Click GraphQL Execution** — Each recommendation includes the exact Shopify Admin API mutation (discount codes, purchase orders, marketing campaigns). Click "Deploy Fix" → see the payload → "Active in Shopify" in 2 seconds.
+
+- **6 Heuristic Engine** — Dead Stock Bundle, Shipping Margin Erosion, Critical Restock, Conversion Dip Recovery, Refund Rate Anomaly, Pending Order Backlog. All running deterministically on the edge.
 
 ---
 
-## Architecture
+## How It Works
+
+We integrated Store 30's live data. To ensure zero latency and 100% uptime for this demo, the AI logic is currently running deterministically on the edge, evaluating the live inventory counts against our margin-recovery heuristics. It instantly flags dead capital and queues up the exact Shopify GraphQL mutation needed to fix it.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -41,11 +38,7 @@ Most Shopify merchants are bleeding money and don't know it. Dead stock ties up 
 └─────────────────────────────────────────────────────────┘
 ```
 
-### Key Technical Decisions
-
-- **Edge-first AI**: We integrated Store 30's live data. To ensure zero latency and 100% uptime for this demo, the AI logic is currently running deterministically on the edge, evaluating the live inventory counts against our margin-recovery heuristics. It instantly flags dead capital and queues up the exact Shopify GraphQL mutation needed to fix it.
-- **No LLM dependency at runtime**: The margin analyzer runs 6 deterministic heuristics with transparent math. No API keys, no cold starts, no rate limits. Sub-50ms analysis on every request.
-- **Type-safe end-to-end**: Full TypeScript strict mode from API routes to React components. Shared `types/index.ts` ensures the contract between backend and frontend never drifts.
+**No LLM dependency at runtime.** No API keys, no cold starts, no rate limits. Sub-50ms analysis on every request.
 
 ---
 
@@ -62,28 +55,8 @@ Most Shopify merchants are bleeding money and don't know it. Dead stock ties up 
 
 Each heuristic outputs:
 - A human-readable recommendation
-- An "AI Thinking" block with exact math (holding costs, ROI, break-even analysis)
-- A proposed Shopify GraphQL mutation ready to execute
-
----
-
-## Features
-
-### Dashboard
-- **KPI Metrics Ribbon** with MagicCard hover effects and stagger animations
-- **Live Inventory Table** with real-time stock badges (LOW/CRITICAL)
-- **Order History** with status badges (fulfilled, pending, refunded)
-- **Animated Grid Pattern** background with radial mask
-
-### AI Terminal
-- **Terminal-style audit modal** with simulated compute logs
-- **Stagger-fade action cards** with Framer Motion spring physics
-- **Collapsible AI Thinking** panels showing transparent reasoning
-- **1-click Shopify execution** with GraphQL mutation preview in slide-over panel
-
-### Executive Report
-- **Print-friendly report** via `window.print()` with `@media print` CSS
-- White background, clean typography, no chrome — ready for board decks
+- An **"AI Thinking"** block with exact math (holding costs, ROI, break-even analysis)
+- A proposed **Shopify GraphQL mutation** ready to execute
 
 ---
 
@@ -91,44 +64,49 @@ Each heuristic outputs:
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 16.2.1 (App Router, Turbopack) |
+| Framework | Next.js 16 (App Router, Turbopack) |
 | Runtime | React 19, TypeScript 5 (strict) |
 | Styling | Tailwind CSS 4, shadcn/ui |
 | Animation | Framer Motion 12, Magic UI |
 | Commerce | Shopify Admin API (GraphQL) |
-| Deployment | Vercel (Edge, Serverless Functions) |
+| Deployment | Vercel (Edge Functions) |
+| AI Engine | Deterministic heuristic models (edge-computed) |
+
+---
+
+## Features
+
+### Dashboard
+- KPI Metrics Ribbon with MagicCard hover glow effects
+- Live Inventory Table with stock badges (LOW/CRITICAL)
+- Order History with status badges (fulfilled, pending, refunded)
+- Animated grid pattern background
+
+### AI Terminal
+- Terminal-style audit modal with streaming compute logs
+- Stagger-fade action cards with Framer Motion spring physics
+- Collapsible "AI Thinking" panels with transparent reasoning math
+- 1-click Shopify execution with GraphQL mutation preview panel
+
+### Executive Report
+- Print-friendly board report via `window.print()`
+- Clean white-background layout with no chrome
 
 ---
 
 ## Getting Started
 
 ```bash
-# Clone
 git clone https://github.com/operatoruplift/hackathon-1.git
 cd hackathon-1
-
-# Install
 pnpm install
 
-# Configure environment
-cp .env.example .env.local
-# Add your SHOPIFY_ACCESS_TOKEN and SHOPIFY_STORE_URL
+# Add your Shopify credentials
+echo "SHOPIFY_ACCESS_TOKEN=your_token" >> .env.local
+echo "SHOPIFY_STORE_URL=your-store.myshopify.com" >> .env.local
 
-# Dev server
 pnpm dev
-
-# Production build
-pnpm build
 ```
-
----
-
-## Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| `SHOPIFY_ACCESS_TOKEN` | Shopify Admin API access token |
-| `SHOPIFY_STORE_URL` | Your myshopify.com store URL |
 
 ---
 
@@ -160,8 +138,6 @@ src/
 ## Team
 
 Built by **Operator Uplift** at the OpenClaw Hackathon 2026.
-
----
 
 ## License
 
