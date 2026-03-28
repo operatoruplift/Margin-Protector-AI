@@ -1211,11 +1211,11 @@ export default function Dashboard() {
                       glowTo="#4CBB17"
                       glowSize={300}
                       glowBlur={40}
-                      glowOpacity={0.6}
+                      glowOpacity={0.35}
                       className="rounded-xl border-[#27272A] bg-[#18181B] p-0"
                     >
-                      <div className="p-5">
-                        <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+                      <div className="relative z-50 p-5">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
                           {kpi.label}
                         </span>
                         <div className="mt-1 flex items-baseline gap-2">
@@ -1468,12 +1468,12 @@ export default function Dashboard() {
                               {/* Subtle grid background */}
                               <div
                                 className={cn(
-                                  "pointer-events-none absolute inset-0",
+                                  "pointer-events-none absolute inset-0 opacity-30",
                                   "[background-size:32px_32px]",
                                   "[background-image:linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)]"
                                 )}
                               />
-                              <div className="pointer-events-none absolute inset-0 bg-[#0A0A0C] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+                              <div className="pointer-events-none absolute inset-0 bg-[#0A0A0C] [mask-image:radial-gradient(ellipse_at_center,transparent_5%,black_70%)]" />
                               <div className="relative flex items-center justify-center">
                                 <span className="absolute size-20 animate-[ping_4s_ease-in-out_infinite] rounded-full bg-emerald-500/5" />
                                 <span className="absolute size-12 animate-[ping_4s_ease-in-out_0.6s_infinite] rounded-full bg-emerald-500/5" />
@@ -1494,11 +1494,11 @@ export default function Dashboard() {
                                 </div>
                               </div>
 
-                              <div className="text-center">
-                                <p className="text-sm font-medium text-zinc-200">
+                              <div className="relative z-10 text-center">
+                                <p className="text-sm font-semibold text-zinc-100">
                                   Store connected
                                 </p>
-                                <p className="mx-auto mt-2 max-w-[240px] text-xs leading-relaxed text-zinc-500">
+                                <p className="mx-auto mt-2 max-w-[240px] text-xs leading-relaxed text-zinc-400">
                                   Ready to analyze profit margins, detect
                                   revenue leaks, and deploy autonomous fixes.
                                 </p>
