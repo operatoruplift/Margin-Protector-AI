@@ -669,7 +669,7 @@ export default function Dashboard() {
             </button>
             <button
               onClick={confirmRestock}
-              className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95"
+              className="rounded-lg bg-gradient-to-r from-[#AAFF00] to-emerald-400 px-4 py-2 text-sm font-medium text-black shadow-[0_0_20px_rgba(170,255,0,0.3)] transition-all hover:brightness-110 active:scale-95"
             >
               Send Purchase Order
             </button>
@@ -906,7 +906,7 @@ export default function Dashboard() {
                 </a>
                 <button
                   onClick={closeSheet}
-                  className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95"
+                  className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_20px_rgba(170,255,0,0.3)] transition-all hover:brightness-110 active:scale-95"
                 >
                   Done
                 </button>
@@ -1004,7 +1004,7 @@ export default function Dashboard() {
                 </span>
                 <button
                   onClick={() => setAuditOpen(false)}
-                  className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95"
+                  className="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-medium text-white shadow-[0_0_20px_rgba(170,255,0,0.3)] transition-all hover:brightness-110 active:scale-95"
                 >
                   View Strategies
                 </button>
@@ -1026,8 +1026,8 @@ export default function Dashboard() {
       <aside className={`fixed inset-y-0 left-0 z-50 flex w-64 shrink-0 flex-col border-r border-[#27272A] bg-[#09090B] transition-transform duration-200 lg:static lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         {/* Logo + Store Switcher */}
         <div className="flex h-16 items-center gap-3 border-b border-[#27272A] px-5">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <div className="flex size-8 items-center justify-center rounded-lg bg-[#AAFF00] shadow-[0_0_16px_rgba(170,255,0,0.25)]">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
           </div>
@@ -1050,7 +1050,7 @@ export default function Dashboard() {
               }}
               className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
                 activePage === item.label
-                  ? "border-l-2 border-emerald-500 bg-zinc-800/50 font-medium text-zinc-50"
+                  ? "border-l-2 border-[#AAFF00] bg-zinc-800/50 font-medium text-zinc-50"
                   : "border-l-2 border-transparent text-zinc-400 hover:bg-zinc-800/30 hover:text-zinc-200"
               }`}
             >
@@ -1207,8 +1207,8 @@ export default function Dashboard() {
                   >
                     <MagicCard
                       mode="orb"
-                      glowFrom="#10B981"
-                      glowTo="#34D399"
+                      glowFrom="#AAFF00"
+                      glowTo="#4CBB17"
                       glowSize={300}
                       glowBlur={40}
                       glowOpacity={0.6}
@@ -1219,7 +1219,7 @@ export default function Dashboard() {
                           {kpi.label}
                         </span>
                         <div className="mt-1 flex items-baseline gap-2">
-                          <span className="font-mono text-3xl font-medium tracking-tighter text-zinc-50">
+                          <span className="font-mono text-3xl font-semibold tracking-tight text-[#AAFF00]">
                             {kpi.value}
                           </span>
                           <span
@@ -1507,7 +1507,7 @@ export default function Dashboard() {
                               <button
                                 onClick={runAudit}
                                 disabled={auditOpen && !auditComplete}
-                                className="rounded-lg bg-emerald-500 px-5 py-2.5 font-mono text-sm font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                                className="rounded-lg bg-gradient-to-r from-[#AAFF00] to-emerald-400 px-5 py-2.5 font-mono text-sm font-medium text-black shadow-[0_0_20px_rgba(170,255,0,0.3)] transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                               >
                                 Run Audit
                               </button>
@@ -1608,7 +1608,7 @@ export default function Dashboard() {
                                       className={`group overflow-hidden rounded-xl border p-5 backdrop-blur-sm transition-all duration-200 ${
                                         isCompleted && !isCollapsing
                                           ? "border-emerald-400/20 bg-emerald-400/[0.03]"
-                                          : "border-zinc-800/80 bg-zinc-900/40 hover:border-emerald-500/50 hover:bg-zinc-800/40 transition-all"
+                                          : "border-white/[0.06] bg-zinc-900/40 backdrop-blur-xl hover:-translate-y-1 hover:border-[#AAFF00]/40 hover:shadow-[0_8px_30px_rgba(170,255,0,0.08)] transition-all duration-300 ease-out"
                                       }`}
                                     >
                                       <div className="flex items-start justify-between gap-3">
@@ -1766,7 +1766,7 @@ export default function Dashboard() {
                                                   e.stopPropagation();
                                                   executeAction(action);
                                                 }}
-                                                className="rounded-lg bg-emerald-500 px-4 py-1.5 text-xs font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95 disabled:opacity-80"
+                                                className="rounded-lg bg-gradient-to-r from-[#AAFF00] to-emerald-400 px-4 py-1.5 text-xs font-medium text-black shadow-[0_0_20px_rgba(170,255,0,0.3)] transition-all hover:brightness-110 active:scale-95 disabled:opacity-80"
                                               >
                                                 {isExecuting ? (
                                                   <span className="flex items-center gap-1.5">
@@ -1828,7 +1828,7 @@ export default function Dashboard() {
               <button
                 onClick={runAudit}
                 disabled={auditOpen && !auditComplete}
-                className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg bg-gradient-to-r from-[#AAFF00] to-emerald-400 px-4 py-2 text-sm font-medium text-black shadow-[0_0_20px_rgba(170,255,0,0.3)] transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Generate New Report
               </button>
@@ -2019,9 +2019,9 @@ export default function Dashboard() {
       <div className="print-report" style={{ display: "none" }}>
         <div style={{ fontFamily: "Geist, Inter, system-ui, sans-serif", color: "#09090B", maxWidth: 720, margin: "0 auto" }}>
           {/* Report Header */}
-          <div style={{ borderBottom: "2px solid #10B981", paddingBottom: 24, marginBottom: 32 }}>
+          <div style={{ borderBottom: "2px solid #AAFF00", paddingBottom: 24, marginBottom: 32 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 8, background: "#10B981", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: 36, height: 36, borderRadius: 8, background: "#AAFF00", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <span style={{ color: "#fff", fontSize: 14, fontWeight: 700 }}>AI</span>
               </div>
               <div>
@@ -2070,7 +2070,7 @@ export default function Dashboard() {
                   <div key={action.id} style={{ padding: 16, border: "1px solid #E4E4E7", borderRadius: 8, borderLeft: `3px solid ${action.urgency === "HIGH" ? "#EF4444" : action.urgency === "MEDIUM" ? "#F59E0B" : "#A1A1AA"}` }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <span style={{ fontSize: 11, fontWeight: 600, fontFamily: "Geist Mono, monospace", color: "#10B981", background: "#ECFDF5", padding: "2px 6px", borderRadius: 4 }}>
+                        <span style={{ fontSize: 11, fontWeight: 600, fontFamily: "Geist Mono, monospace", color: "#AAFF00", background: "#F0FFF0", padding: "2px 6px", borderRadius: 4 }}>
                           {action.type}
                         </span>
                         <span style={{ fontSize: 13, fontWeight: 600 }}>
@@ -2079,7 +2079,7 @@ export default function Dashboard() {
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                         {isResolved && (
-                          <span style={{ fontSize: 10, fontWeight: 600, color: "#059669", background: "#ECFDF5", padding: "2px 8px", borderRadius: 4 }}>
+                          <span style={{ fontSize: 10, fontWeight: 600, color: "#059669", background: "#F0FFF0", padding: "2px 8px", borderRadius: 4 }}>
                             DEPLOYED
                           </span>
                         )}
@@ -2091,7 +2091,7 @@ export default function Dashboard() {
                     <p style={{ fontSize: 12, lineHeight: 1.6, color: "#52525B", marginBottom: 8 }}>
                       {action.description}
                     </p>
-                    <div style={{ fontSize: 11, fontFamily: "Geist Mono, monospace", color: "#10B981", background: "#FAFAFA", padding: "8px 12px", borderRadius: 6, border: "1px solid #E4E4E7" }}>
+                    <div style={{ fontSize: 11, fontFamily: "Geist Mono, monospace", color: "#AAFF00", background: "#FAFAFA", padding: "8px 12px", borderRadius: 6, border: "1px solid #E4E4E7" }}>
                       Proposed: {action.proposedExecution}
                     </div>
                   </div>
