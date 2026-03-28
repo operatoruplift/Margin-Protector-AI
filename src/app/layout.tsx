@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Margin Protector AI",
-  description: "Autonomous profit recovery for Shopify merchants",
+  title: "Margin Protector AI | Autonomous Profit Recovery",
+  description: "Find and fix profit leakage in your Shopify store. 6 deterministic heuristics, transparent AI reasoning, 1-click GraphQL execution. Recover dead capital in under 50ms.",
   icons: {
     icon: "/favicon.svg",
   },

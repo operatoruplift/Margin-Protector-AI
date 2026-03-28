@@ -1,3 +1,13 @@
+/**
+ * POST /api/margin/analyze
+ *
+ * Runs the 6-heuristic margin analysis engine against current store data.
+ * Returns an array of RecommendedAction objects with transparent AI reasoning.
+ *
+ * Heuristics: Dead Stock, Shipping Erosion, Critical Restock,
+ *             Conversion Dip, Refund Anomaly, Pending Backlog
+ */
+
 import { products, orders, analytics } from "@/lib/mockShopifyData";
 import { runMarginAnalysis } from "@/lib/marginAnalyzer";
 import type { ApiResponse, RecommendedAction } from "@/types";
@@ -16,8 +26,6 @@ export async function POST() {
 
     return Response.json(response);
   } catch (error) {
-    console.error("Margin Analyzer error:", error);
-
     const message =
       error instanceof Error ? error.message : "Unknown error occurred";
 

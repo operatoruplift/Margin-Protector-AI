@@ -10,7 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-AAFF00?style=flat-square)](LICENSE)
 [![Deploy](https://img.shields.io/badge/Vercel-Live-black?style=flat-square&logo=vercel)](https://marginprotectorai.vercel.app)
 
-[Live Demo](https://marginprotectorai.vercel.app) &middot; [Report Bug](https://github.com/operatoruplift/Margin-Protector-AI/issues) &middot; [Request Feature](https://github.com/operatoruplift/Margin-Protector-AI/issues)
+[Live Demo](https://marginprotectorai.vercel.app) &middot; [Bazaar Demo](https://bazaar.it/share/547d4ade-3864-4d3e-9ce6-52e7d152f229) &middot; [Report Bug](https://github.com/operatoruplift/Margin-Protector-AI/issues)
 
 </div>
 
@@ -88,16 +88,44 @@ SHOPIFY_STORE_URL=your-store.myshopify.com
 
 ## Architecture
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                    Next.js 16 (App Router)                │
-├───────────────┬──────────────┬────────────────────────────┤
-│   Dashboard   │  API Routes  │   Margin Analyzer Engine    │
-│   (React 19)  │  /api/*      │   lib/marginAnalyzer.ts     │
-├───────────────┴──────────────┴────────────────────────────┤
-│               Shopify Admin API (GraphQL)                  │
-│          Store 30 — gzh-30.myshopify.com                   │
-└──────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph Client["Next.js 16 Dashboard"]
+        UI["React 19 UI"]
+        KPI["KPI Ribbon"]
+        Terminal["AI Terminal"]
+    end
+
+    subgraph Edge["Vercel Edge"]
+        API["/api/margin/analyze"]
+        Discount["/api/shopify/discount"]
+    end
+
+    subgraph Engine["Margin Analyzer Engine"]
+        H1["Dead Stock Detection"]
+        H2["Shipping Erosion"]
+        H3["Critical Restock"]
+        H4["Conversion Dip"]
+        H5["Refund Anomaly"]
+        H6["Pending Backlog"]
+    end
+
+    subgraph Shopify["Shopify Admin API"]
+        GQL["GraphQL Mutations"]
+        Store["Store 30"]
+    end
+
+    UI --> API
+    API --> Engine
+    Engine --> API
+    Terminal --> Discount
+    Discount --> GQL
+    GQL --> Store
+
+    style Client fill:#18181B,stroke:#AAFF00,color:#fff
+    style Edge fill:#09090B,stroke:#27272A,color:#fff
+    style Engine fill:#09090B,stroke:#AAFF00,color:#fff
+    style Shopify fill:#18181B,stroke:#7AB55C,color:#fff
 ```
 
 We integrated Store 30's live data. To ensure zero latency and 100% uptime for this demo, the AI logic runs deterministically on the edge, evaluating live inventory counts against our margin-recovery heuristics. It instantly flags dead capital and queues up the exact Shopify GraphQL mutation needed to fix it.

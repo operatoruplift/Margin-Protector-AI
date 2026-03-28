@@ -417,6 +417,11 @@ export default function Dashboard() {
   const [sheetAction, setSheetAction] = useState<RecommendedAction | null>(null);
   const [sheetPhase, setSheetPhase] = useState<SheetPhase>("sending");
   const [sheetPayload, setSheetPayload] = useState<ShopifyPayload | null>(null);
+  const [execLogs, setExecLogs] = useState<string[]>([]);
+
+  // Product/Order detail popup
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   // Audit modal state
   const [auditOpen, setAuditOpen] = useState(false);
@@ -553,16 +558,31 @@ export default function Dashboard() {
     });
   }, []);
 
+  const EXEC_LOG_STEPS = [
+    { text: "Authenticating Shopify Admin...", delay: 400 },
+    { text: "Session verified. Scoping product catalog...", delay: 350 },
+    { text: "Calculating optimal discount parameters...", delay: 400 },
+    { text: "Building GraphQL mutation payload...", delay: 300 },
+    { text: "Deploying mutation to Shopify Admin API...", delay: 500 },
+  ];
+
   const executeAction = useCallback(
     async (action: RecommendedAction) => {
-      // Phase 1: card loading state
+      // Phase 1: card loading + open sheet
       setExecutingIds((prev) => new Set(prev).add(action.id));
       const payload = buildShopifyPayload(action);
       setSheetPayload(payload);
       setSheetAction(action);
+      setExecLogs([]);
+      setSheetPhase("sending");
 
-      // Phase 2: after 1s, transition to "syncing" (inline badge)
-      await sleep(1000);
+      // Phase 2: stream terminal logs
+      for (const step of EXEC_LOG_STEPS) {
+        await sleep(step.delay);
+        setExecLogs((prev) => [...prev, step.text]);
+      }
+
+      // Phase 3: transition card to syncing
       setExecutingIds((prev) => {
         const next = new Set(prev);
         next.delete(action.id);
@@ -570,15 +590,13 @@ export default function Dashboard() {
       });
       setSyncingIds((prev) => new Set(prev).add(action.id));
 
-      // Phase 3: open sheet showing payload being "sent"
-      setSheetPhase("sending");
-
-      // Phase 4: after 1.5s more, reveal payload
-      await sleep(1500);
+      // Phase 4: reveal payload
+      await sleep(400);
       setSheetPhase("payload");
 
-      // Phase 5: after 1s more, show success
-      await sleep(1000);
+      // Phase 5: success
+      await sleep(800);
+      setExecLogs((prev) => [...prev, "✓ 200 OK — Discount code is now live in Shopify."]);
       setSheetPhase("success");
       setSyncingIds((prev) => {
         const next = new Set(prev);
@@ -677,6 +695,110 @@ export default function Dashboard() {
         </DialogContent>
       </Dialog>
 
+      {/* ── Product Detail Dialog ── */}
+      <Dialog
+        open={selectedProduct !== null}
+        onOpenChange={(open) => { if (!open) setSelectedProduct(null); }}
+      >
+        <DialogContent className="border-[#27272A] bg-[#18181B] sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-zinc-50">
+              {selectedProduct?.title}
+            </DialogTitle>
+            <DialogDescription className="font-mono text-zinc-500">
+              {selectedProduct?.sku}
+            </DialogDescription>
+          </DialogHeader>
+          {selectedProduct && (() => {
+            const p = selectedProduct;
+            const isDeadStock = p.currentInventory > 50 && p.totalSold30d === 0;
+            const holdingCostMo = isDeadStock ? Math.round(p.price * p.currentInventory * 0.02) : 0;
+            const totalCapital = p.price * p.currentInventory;
+            return (
+              <div className="flex flex-col gap-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                    <span className="text-[10px] uppercase text-zinc-500">Unit Price</span>
+                    <p className="font-mono text-lg font-semibold text-[#AAFF00]">{formatCents(p.price)}</p>
+                  </div>
+                  <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                    <span className="text-[10px] uppercase text-zinc-500">In Stock</span>
+                    <p className={`font-mono text-lg font-semibold ${p.currentInventory < p.reorderThreshold ? "text-red-400" : "text-zinc-50"}`}>{p.currentInventory}</p>
+                  </div>
+                  <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                    <span className="text-[10px] uppercase text-zinc-500">30d Sales</span>
+                    <p className={`font-mono text-lg font-semibold ${p.totalSold30d === 0 ? "text-amber-400" : "text-zinc-50"}`}>{p.totalSold30d}</p>
+                  </div>
+                  <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                    <span className="text-[10px] uppercase text-zinc-500">Ship Cost</span>
+                    <p className="font-mono text-lg font-semibold text-zinc-50">{formatCents(p.shippingCost)}</p>
+                  </div>
+                </div>
+                <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                  <span className="text-[10px] uppercase text-zinc-500">Total Capital Tied Up</span>
+                  <p className="font-mono text-xl font-bold text-[#AAFF00]">{formatCents(totalCapital)}</p>
+                </div>
+                {isDeadStock && (
+                  <div className="rounded-lg border border-red-500/20 bg-red-500/5 p-3">
+                    <span className="text-xs font-semibold text-red-400">Dead Stock Alert</span>
+                    <p className="mt-1 text-xs text-zinc-400">
+                      {p.currentInventory} units with zero sales in 30 days. Holding cost burn: <span className="font-mono font-semibold text-amber-400">{formatCents(holdingCostMo)}/mo</span>. Total capital at risk: <span className="font-mono font-semibold text-red-400">{formatCents(totalCapital)}</span>.
+                    </p>
+                  </div>
+                )}
+                {p.currentInventory < p.reorderThreshold && (
+                  <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 p-3">
+                    <span className="text-xs font-semibold text-amber-400">Restock Required</span>
+                    <p className="mt-1 text-xs text-zinc-400">
+                      Only {p.currentInventory} units remaining vs. {p.reorderThreshold} reorder threshold. At {p.totalSold30d} units/30d velocity, stockout in {p.totalSold30d > 0 ? Math.round((p.currentInventory / p.totalSold30d) * 30) : 0} days.
+                    </p>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+        </DialogContent>
+      </Dialog>
+
+      {/* ── Order Detail Dialog ── */}
+      <Dialog
+        open={selectedOrder !== null}
+        onOpenChange={(open) => { if (!open) setSelectedOrder(null); }}
+      >
+        <DialogContent className="border-[#27272A] bg-[#18181B] sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="font-mono text-zinc-50">
+              {selectedOrder?.id}
+            </DialogTitle>
+            <DialogDescription className="text-zinc-500">
+              Order details
+            </DialogDescription>
+          </DialogHeader>
+          {selectedOrder && (
+            <div className="flex flex-col gap-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                  <span className="text-[10px] uppercase text-zinc-500">Total</span>
+                  <p className="font-mono text-lg font-semibold text-[#AAFF00]">{formatCents(selectedOrder.total)}</p>
+                </div>
+                <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                  <span className="text-[10px] uppercase text-zinc-500">Status</span>
+                  <p className={`text-sm font-semibold capitalize ${selectedOrder.status === "fulfilled" ? "text-emerald-400" : selectedOrder.status === "pending" ? "text-amber-400" : "text-red-400"}`}>{selectedOrder.status}</p>
+                </div>
+              </div>
+              <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                <span className="text-[10px] uppercase text-zinc-500">Customer</span>
+                <p className="font-mono text-sm text-zinc-300">{selectedOrder.customerId}</p>
+              </div>
+              <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                <span className="text-[10px] uppercase text-zinc-500">Date</span>
+                <p className="text-sm text-zinc-300">{new Date(selectedOrder.createdAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}</p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
       {/* ── Execution Sheet Side Panel ── */}
       <Sheet
         open={sheetAction !== null}
@@ -720,6 +842,35 @@ export default function Dashboard() {
           <div className="flex-1 overflow-y-auto p-5">
             {sheetAction && sheetPayload && (
               <div className="flex flex-col gap-4">
+                {/* Execution log stream */}
+                {execLogs.length > 0 && (
+                  <div className="rounded-lg border border-[#27272A] bg-[#09090B] p-3">
+                    <div className="space-y-1 font-mono text-[11px]">
+                      {execLogs.map((log, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -4 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.15 }}
+                          className={`${
+                            log.startsWith("✓")
+                              ? "font-semibold text-[#AAFF00]"
+                              : "text-zinc-500"
+                          }`}
+                        >
+                          {!log.startsWith("✓") && (
+                            <span className="text-emerald-400">$ </span>
+                          )}
+                          {log}
+                        </motion.div>
+                      ))}
+                      {sheetPhase === "sending" && (
+                        <span className="inline-block animate-pulse text-emerald-400">_</span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Action context */}
                 <div>
                   <div className="flex items-center gap-2">
@@ -1290,10 +1441,14 @@ export default function Dashboard() {
                           {products.map((p) => {
                             const isLow =
                               p.currentInventory < p.reorderThreshold;
+                            const holdingCost = p.totalSold30d === 0 && p.currentInventory > 50
+                              ? Math.round(p.price * p.currentInventory * 0.02)
+                              : 0;
                             return (
                               <TableRow
                                 key={p.id}
-                                className="border-[#27272A] transition-colors hover:bg-zinc-800/40"
+                                onClick={() => setSelectedProduct(p)}
+                                className="cursor-pointer border-[#27272A] transition-colors hover:bg-zinc-800/40"
                               >
                                 <TableCell className="text-sm font-medium text-zinc-200">
                                   {p.title}
@@ -1313,6 +1468,11 @@ export default function Dashboard() {
                                   {isLow && (
                                     <span className="ml-2 inline-flex items-center rounded bg-red-400/10 px-1.5 py-0.5 text-[10px] font-medium text-red-400">
                                       CRITICAL
+                                    </span>
+                                  )}
+                                  {holdingCost > 0 && (
+                                    <span className="ml-2 inline-flex items-center rounded bg-amber-400/10 px-1.5 py-0.5 font-mono text-[10px] font-medium text-amber-400">
+                                      -{formatCents(holdingCost)}/mo
                                     </span>
                                   )}
                                 </TableCell>
@@ -1383,7 +1543,8 @@ export default function Dashboard() {
                           {orders.map((o) => (
                             <TableRow
                               key={o.id}
-                              className="border-[#27272A] transition-colors hover:bg-zinc-800/40"
+                              onClick={() => setSelectedOrder(o)}
+                              className="cursor-pointer border-[#27272A] transition-colors hover:bg-zinc-800/40"
                             >
                               <TableCell className="font-mono text-xs text-zinc-200">
                                 {o.id}

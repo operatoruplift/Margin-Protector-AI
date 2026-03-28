@@ -1,3 +1,10 @@
+/**
+ * POST /api/agent/run
+ *
+ * Alternative entry point for the margin analysis engine.
+ * Identical output to /api/margin/analyze — exists for backward compatibility.
+ */
+
 import { runMarginAnalysis } from "@/lib/marginAnalyzer";
 import { products, orders, analytics } from "@/lib/mockShopifyData";
 import type { ApiResponse, RecommendedAction } from "@/types";
@@ -16,8 +23,6 @@ export async function POST() {
 
     return Response.json(response);
   } catch (error) {
-    console.error("Agent error:", error);
-
     const message =
       error instanceof Error ? error.message : "Unknown error occurred";
 

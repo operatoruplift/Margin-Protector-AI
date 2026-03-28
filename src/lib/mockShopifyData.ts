@@ -1,16 +1,32 @@
 import type { Product, Order, DailyAnalytics } from "@/types";
 
+/**
+ * Demo-mode data seed for Margin Protector AI.
+ *
+ * This dataset is designed to trigger every heuristic in marginAnalyzer.ts:
+ *   - Dead stock: Alpine Puffer (120 units, 0 sold in 30d)
+ *   - Dead stock: Hemp Canvas Tote (312 units, 0 sold in 30d)
+ *   - Shipping erosion: Bamboo Fiber Socks (shipping 47% of price)
+ *   - Critical restock: Recycled Denim Jacket (3 units vs 25 threshold)
+ *   - Critical restock: Bamboo Fiber Socks (4 units vs 40 threshold)
+ *   - Conversion dip: Mar 22-23 both below 3.0%
+ *   - Refund rate: 5/25 = 20% (well above 5% benchmark)
+ *   - Pending backlog: 5 orders stuck pending
+ *
+ * All prices are in integer cents to avoid floating-point precision issues.
+ */
+
 export const products: Product[] = [
   {
     id: "gid://shopify/Product/8001",
-    title: "Organic Cotton T-Shirt",
-    sku: "OCT-BLK-M",
-    price: 3499,
-    currentInventory: 245,
-    reorderThreshold: 50,
+    title: "Alpine Puffer Jacket",
+    sku: "APJ-BLK-L",
+    price: 14999,
+    currentInventory: 120,
+    reorderThreshold: 30,
     status: "active",
-    shippingCost: 1499,
-    totalSold30d: 87,
+    shippingCost: 2199,
+    totalSold30d: 0,
   },
   {
     id: "gid://shopify/Product/8002",
@@ -80,236 +96,51 @@ export const products: Product[] = [
   },
   {
     id: "gid://shopify/Product/8008",
-    title: "Vintage Wash Hoodie",
-    sku: "VWH-CHR-XL",
-    price: 6499,
-    currentInventory: 0,
-    reorderThreshold: 30,
-    status: "archived",
-    shippingCost: 1299,
-    totalSold30d: 0,
+    title: "Organic Cotton T-Shirt",
+    sku: "OCT-BLK-M",
+    price: 3499,
+    currentInventory: 245,
+    reorderThreshold: 50,
+    status: "active",
+    shippingCost: 499,
+    totalSold30d: 87,
   },
 ];
 
 export const orders: Order[] = [
-  {
-    id: "ORD-10001",
-    customerId: "cust_a1b2c3",
-    total: 3499,
-    status: "fulfilled",
-    createdAt: "2026-03-15T09:12:44Z",
-  },
-  {
-    id: "ORD-10002",
-    customerId: "cust_d4e5f6",
-    total: 15898,
-    status: "fulfilled",
-    createdAt: "2026-03-15T14:33:21Z",
-  },
-  {
-    id: "ORD-10003",
-    customerId: "cust_g7h8i9",
-    total: 2899,
-    status: "refunded",
-    createdAt: "2026-03-16T08:05:11Z",
-  },
-  {
-    id: "ORD-10004",
-    customerId: "cust_j0k1l2",
-    total: 18999,
-    status: "fulfilled",
-    createdAt: "2026-03-16T11:47:33Z",
-  },
-  {
-    id: "ORD-10005",
-    customerId: "cust_m3n4o5",
-    total: 7398,
-    status: "fulfilled",
-    createdAt: "2026-03-17T10:22:09Z",
-  },
-  {
-    id: "ORD-10006",
-    customerId: "cust_p6q7r8",
-    total: 4499,
-    status: "fulfilled",
-    createdAt: "2026-03-17T16:58:42Z",
-  },
-  {
-    id: "ORD-10007",
-    customerId: "cust_s9t0u1",
-    total: 35497,
-    status: "fulfilled",
-    createdAt: "2026-03-18T07:31:15Z",
-  },
-  {
-    id: "ORD-10008",
-    customerId: "cust_v2w3x4",
-    total: 8999,
-    status: "pending",
-    createdAt: "2026-03-18T13:14:56Z",
-  },
-  {
-    id: "ORD-10009",
-    customerId: "cust_y5z6a7",
-    total: 1899,
-    status: "fulfilled",
-    createdAt: "2026-03-19T09:43:28Z",
-  },
-  {
-    id: "ORD-10010",
-    customerId: "cust_b8c9d0",
-    total: 12999,
-    status: "fulfilled",
-    createdAt: "2026-03-19T15:27:03Z",
-  },
-  {
-    id: "ORD-10011",
-    customerId: "cust_e1f2g3",
-    total: 6499,
-    status: "fulfilled",
-    createdAt: "2026-03-20T08:55:17Z",
-  },
-  {
-    id: "ORD-10012",
-    customerId: "cust_h4i5j6",
-    total: 23498,
-    status: "fulfilled",
-    createdAt: "2026-03-20T12:08:44Z",
-  },
-  {
-    id: "ORD-10013",
-    customerId: "cust_k7l8m9",
-    total: 3499,
-    status: "pending",
-    createdAt: "2026-03-21T10:36:29Z",
-  },
-  {
-    id: "ORD-10014",
-    customerId: "cust_n0o1p2",
-    total: 44997,
-    status: "fulfilled",
-    createdAt: "2026-03-21T17:42:51Z",
-  },
-  {
-    id: "ORD-10015",
-    customerId: "cust_q3r4s5",
-    total: 5798,
-    status: "fulfilled",
-    createdAt: "2026-03-22T09:19:08Z",
-  },
-  {
-    id: "ORD-10016",
-    customerId: "cust_t6u7v8",
-    total: 2899,
-    status: "refunded",
-    createdAt: "2026-03-22T14:51:33Z",
-  },
-  {
-    id: "ORD-10017",
-    customerId: "cust_w9x0y1",
-    total: 18999,
-    status: "fulfilled",
-    createdAt: "2026-03-23T08:27:46Z",
-  },
-  {
-    id: "ORD-10018",
-    customerId: "cust_z2a3b4",
-    total: 9898,
-    status: "fulfilled",
-    createdAt: "2026-03-24T11:03:22Z",
-  },
-  {
-    id: "ORD-10019",
-    customerId: "cust_c5d6e7",
-    total: 3499,
-    status: "pending",
-    createdAt: "2026-03-24T16:44:15Z",
-  },
-  {
-    id: "ORD-10020",
-    customerId: "cust_f8g9h0",
-    total: 25898,
-    status: "fulfilled",
-    createdAt: "2026-03-25T09:58:37Z",
-  },
-  {
-    id: "ORD-10021",
-    customerId: "cust_i1j2k3",
-    total: 6499,
-    status: "fulfilled",
-    createdAt: "2026-03-25T14:22:09Z",
-  },
-  {
-    id: "ORD-10022",
-    customerId: "cust_l4m5n6",
-    total: 1899,
-    status: "pending",
-    createdAt: "2026-03-26T10:15:43Z",
-  },
-  {
-    id: "ORD-10023",
-    customerId: "cust_o7p8q9",
-    total: 12999,
-    status: "fulfilled",
-    createdAt: "2026-03-26T18:33:56Z",
-  },
-  {
-    id: "ORD-10024",
-    customerId: "cust_r0s1t2",
-    total: 38497,
-    status: "fulfilled",
-    createdAt: "2026-03-27T08:47:21Z",
-  },
-  {
-    id: "ORD-10025",
-    customerId: "cust_u3v4w5",
-    total: 8999,
-    status: "pending",
-    createdAt: "2026-03-28T07:02:14Z",
-  },
+  { id: "ORD-10001", customerId: "cust_a1b2c3", total: 14999, status: "fulfilled", createdAt: "2026-03-15T09:12:44Z" },
+  { id: "ORD-10002", customerId: "cust_d4e5f6", total: 15898, status: "fulfilled", createdAt: "2026-03-15T14:33:21Z" },
+  { id: "ORD-10003", customerId: "cust_g7h8i9", total: 2899, status: "refunded", createdAt: "2026-03-16T08:05:11Z" },
+  { id: "ORD-10004", customerId: "cust_j0k1l2", total: 18999, status: "fulfilled", createdAt: "2026-03-16T11:47:33Z" },
+  { id: "ORD-10005", customerId: "cust_m3n4o5", total: 7398, status: "refunded", createdAt: "2026-03-17T10:22:09Z" },
+  { id: "ORD-10006", customerId: "cust_p6q7r8", total: 4499, status: "fulfilled", createdAt: "2026-03-17T16:58:42Z" },
+  { id: "ORD-10007", customerId: "cust_s9t0u1", total: 35497, status: "fulfilled", createdAt: "2026-03-18T07:31:15Z" },
+  { id: "ORD-10008", customerId: "cust_v2w3x4", total: 8999, status: "pending", createdAt: "2026-03-18T13:14:56Z" },
+  { id: "ORD-10009", customerId: "cust_y5z6a7", total: 1899, status: "fulfilled", createdAt: "2026-03-19T09:43:28Z" },
+  { id: "ORD-10010", customerId: "cust_b8c9d0", total: 12999, status: "fulfilled", createdAt: "2026-03-19T15:27:03Z" },
+  { id: "ORD-10011", customerId: "cust_e1f2g3", total: 14999, status: "refunded", createdAt: "2026-03-20T08:55:17Z" },
+  { id: "ORD-10012", customerId: "cust_h4i5j6", total: 23498, status: "fulfilled", createdAt: "2026-03-20T12:08:44Z" },
+  { id: "ORD-10013", customerId: "cust_k7l8m9", total: 3499, status: "pending", createdAt: "2026-03-21T10:36:29Z" },
+  { id: "ORD-10014", customerId: "cust_n0o1p2", total: 44997, status: "fulfilled", createdAt: "2026-03-21T17:42:51Z" },
+  { id: "ORD-10015", customerId: "cust_q3r4s5", total: 5798, status: "fulfilled", createdAt: "2026-03-22T09:19:08Z" },
+  { id: "ORD-10016", customerId: "cust_t6u7v8", total: 2899, status: "refunded", createdAt: "2026-03-22T14:51:33Z" },
+  { id: "ORD-10017", customerId: "cust_w9x0y1", total: 18999, status: "fulfilled", createdAt: "2026-03-23T08:27:46Z" },
+  { id: "ORD-10018", customerId: "cust_z2a3b4", total: 9898, status: "fulfilled", createdAt: "2026-03-24T11:03:22Z" },
+  { id: "ORD-10019", customerId: "cust_c5d6e7", total: 3499, status: "pending", createdAt: "2026-03-24T16:44:15Z" },
+  { id: "ORD-10020", customerId: "cust_f8g9h0", total: 25898, status: "fulfilled", createdAt: "2026-03-25T09:58:37Z" },
+  { id: "ORD-10021", customerId: "cust_i1j2k3", total: 14999, status: "refunded", createdAt: "2026-03-25T14:22:09Z" },
+  { id: "ORD-10022", customerId: "cust_l4m5n6", total: 1899, status: "pending", createdAt: "2026-03-26T10:15:43Z" },
+  { id: "ORD-10023", customerId: "cust_o7p8q9", total: 12999, status: "fulfilled", createdAt: "2026-03-26T18:33:56Z" },
+  { id: "ORD-10024", customerId: "cust_r0s1t2", total: 38497, status: "fulfilled", createdAt: "2026-03-27T08:47:21Z" },
+  { id: "ORD-10025", customerId: "cust_u3v4w5", total: 8999, status: "pending", createdAt: "2026-03-28T07:02:14Z" },
 ];
 
 export const analytics: DailyAnalytics[] = [
-  {
-    date: "2026-03-22",
-    dailyRevenue: 218400,
-    conversionRate: 0.029,
-    activeSessions: 1340,
-  },
-  {
-    date: "2026-03-23",
-    dailyRevenue: 195600,
-    conversionRate: 0.028,
-    activeSessions: 1210,
-  },
-  {
-    date: "2026-03-24",
-    dailyRevenue: 347200,
-    conversionRate: 0.036,
-    activeSessions: 2870,
-  },
-  {
-    date: "2026-03-25",
-    dailyRevenue: 389500,
-    conversionRate: 0.039,
-    activeSessions: 3120,
-  },
-  {
-    date: "2026-03-26",
-    dailyRevenue: 412800,
-    conversionRate: 0.041,
-    activeSessions: 3380,
-  },
-  {
-    date: "2026-03-27",
-    dailyRevenue: 368900,
-    conversionRate: 0.037,
-    activeSessions: 2950,
-  },
-  {
-    date: "2026-03-28",
-    dailyRevenue: 241700,
-    conversionRate: 0.031,
-    activeSessions: 1580,
-  },
+  { date: "2026-03-22", dailyRevenue: 218400, conversionRate: 0.029, activeSessions: 1340 },
+  { date: "2026-03-23", dailyRevenue: 195600, conversionRate: 0.028, activeSessions: 1210 },
+  { date: "2026-03-24", dailyRevenue: 347200, conversionRate: 0.036, activeSessions: 2870 },
+  { date: "2026-03-25", dailyRevenue: 389500, conversionRate: 0.039, activeSessions: 3120 },
+  { date: "2026-03-26", dailyRevenue: 412800, conversionRate: 0.041, activeSessions: 3380 },
+  { date: "2026-03-27", dailyRevenue: 368900, conversionRate: 0.037, activeSessions: 2950 },
+  { date: "2026-03-28", dailyRevenue: 241700, conversionRate: 0.031, activeSessions: 1580 },
 ];
