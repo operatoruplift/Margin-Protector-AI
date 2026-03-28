@@ -1,9 +1,10 @@
-import { runCEOAgent } from "@/lib/agentService";
+import { runMarginAnalysis } from "@/lib/marginAnalyzer";
+import { products, orders, analytics } from "@/lib/mockShopifyData";
 import type { ApiResponse, RecommendedAction } from "@/types";
 
 export async function POST() {
   try {
-    const actions = await runCEOAgent();
+    const actions = runMarginAnalysis(products, orders, analytics);
 
     const response: ApiResponse<RecommendedAction[]> = {
       data: actions,
@@ -15,7 +16,7 @@ export async function POST() {
 
     return Response.json(response);
   } catch (error) {
-    console.error("CEO Agent error:", error);
+    console.error("Agent error:", error);
 
     const message =
       error instanceof Error ? error.message : "Unknown error occurred";
