@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Margin Protector AI",
   description: "Autonomous profit recovery for Shopify merchants",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

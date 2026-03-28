@@ -398,6 +398,10 @@ export default function Dashboard() {
   const [agentRan, setAgentRan] = useState(false);
   const [scrambleActive, setScrambleActive] = useState(false);
 
+  // Mobile + navigation state
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activePage, setActivePage] = useState("Dashboard");
+
   // Execution state
   const [executingIds, setExecutingIds] = useState<Set<string>>(new Set());
   const [syncingIds, setSyncingIds] = useState<Set<string>>(new Set());
@@ -1010,8 +1014,16 @@ export default function Dashboard() {
         </DialogContent>
       </Dialog>
 
+      {/* ═══════════════ MOBILE OVERLAY ═══════════════ */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* ═══════════════ SIDEBAR ═══════════════ */}
-      <aside className="flex w-64 shrink-0 flex-col border-r border-[#27272A] bg-[#09090B]">
+      <aside className={`fixed inset-y-0 left-0 z-50 flex w-64 shrink-0 flex-col border-r border-[#27272A] bg-[#09090B] transition-transform duration-200 lg:static lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         {/* Logo + Store Switcher */}
         <div className="flex h-16 items-center gap-3 border-b border-[#27272A] px-5">
           <div className="flex size-8 items-center justify-center rounded-lg bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
@@ -1033,15 +1045,11 @@ export default function Dashboard() {
             <button
               key={item.label}
               onClick={() => {
-                if (!item.active) {
-                  toast.info(`${item.label} — coming in v2`, {
-                    description: "This feature is on the roadmap.",
-                    duration: 2000,
-                  });
-                }
+                setActivePage(item.label);
+                setSidebarOpen(false);
               }}
               className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
-                item.active
+                activePage === item.label
                   ? "border-l-2 border-emerald-500 bg-zinc-800/50 font-medium text-zinc-50"
                   : "border-l-2 border-transparent text-zinc-400 hover:bg-zinc-800/30 hover:text-zinc-200"
               }`}
@@ -1073,12 +1081,26 @@ export default function Dashboard() {
       {/* ═══════════════ MAIN AREA ═══════════════ */}
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* ── Top Navigation ── */}
-        <header className="flex h-16 shrink-0 items-center justify-between border-b border-[#27272A] px-8">
-          {/* Breadcrumbs */}
-          <div className="flex items-center gap-2 text-sm">
-            <span className="text-zinc-500">Dashboard</span>
-            <span className="text-zinc-700">/</span>
-            <span className="font-medium text-zinc-200">Profit Leaks</span>
+        <header className="flex h-14 shrink-0 items-center justify-between border-b border-[#27272A] px-4 lg:h-16 lg:px-8">
+          {/* Hamburger + Breadcrumbs */}
+          <div className="flex items-center gap-3 text-sm">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="flex size-8 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200 lg:hidden"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+            <span className="text-zinc-500">{activePage}</span>
+            {activePage === "Dashboard" && (
+              <>
+                <span className="text-zinc-700">/</span>
+                <span className="font-medium text-zinc-200">Profit Leaks</span>
+              </>
+            )}
           </div>
 
           {/* Search */}
@@ -1142,7 +1164,7 @@ export default function Dashboard() {
         </header>
 
         {/* ── Main Content ── */}
-        <main className="relative flex-1 overflow-y-auto p-8">
+        <main className="relative flex-1 overflow-y-auto p-4 lg:p-8">
           {/* Animated grid background */}
           <AnimatedGridPattern
             numSquares={30}
@@ -1155,6 +1177,7 @@ export default function Dashboard() {
               "skew-y-6"
             )}
           />
+          {activePage === "Dashboard" && (
           <div className="relative z-10 flex flex-col gap-6">
             {/* ── KPI Metrics Ribbon ── */}
             {dataLoading ? (
@@ -1792,6 +1815,203 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+          )}
+
+          {/* ═══════════════ LEAKAGE REPORTS PAGE ═══════════════ */}
+          {activePage === "Leakage Reports" && (
+          <div className="relative z-10 flex flex-col gap-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-xl font-semibold text-zinc-50">Leakage Reports</h1>
+                <p className="mt-1 text-sm text-zinc-500">Historical margin analysis across all SKUs</p>
+              </div>
+              <button
+                onClick={runAudit}
+                disabled={auditOpen && !auditComplete}
+                className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Generate New Report
+              </button>
+            </div>
+
+            {/* Report cards */}
+            <div className="grid gap-4 md:grid-cols-2">
+              {actions.length > 0 ? actions.filter(a => a.urgency === "HIGH").map((action) => (
+                <div key={action.id} className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5 transition-all hover:border-emerald-500/50">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-zinc-200">{action.title}</span>
+                    <span className="rounded bg-red-500/10 px-2 py-0.5 text-[10px] font-medium text-red-400">HIGH</span>
+                  </div>
+                  <p className="mt-2 text-xs text-zinc-500">{action.description}</p>
+                  {action.aiReasoning && (
+                    <div className="mt-3 rounded-md border border-emerald-500/10 bg-emerald-500/[0.03] px-3 py-2">
+                      <p className="font-mono text-[10px] leading-relaxed text-zinc-400">{action.aiReasoning}</p>
+                    </div>
+                  )}
+                </div>
+              )) : (
+                <div className="col-span-2 flex flex-col items-center gap-4 rounded-xl border border-zinc-800/50 py-16 text-center">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-zinc-600">
+                    <path d="M9 17H5a2 2 0 00-2 2v0a2 2 0 002 2h14a2 2 0 002-2v0a2 2 0 00-2-2h-4M9 17v-4a4 4 0 018 0v4M9 17h6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <div>
+                    <p className="text-sm font-medium text-zinc-400">No reports generated yet</p>
+                    <p className="mt-1 text-xs text-zinc-600">Run an audit from the Dashboard to generate leakage reports.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Summary stats */}
+            {actions.length > 0 && (
+              <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+                <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+                  <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">Total Leaks Found</span>
+                  <p className="mt-1 font-mono text-2xl font-medium text-zinc-50">{actions.length}</p>
+                </div>
+                <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+                  <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">High Priority</span>
+                  <p className="mt-1 font-mono text-2xl font-medium text-red-400">{actions.filter(a => a.urgency === "HIGH").length}</p>
+                </div>
+                <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-5">
+                  <span className="text-xs font-medium uppercase tracking-wider text-zinc-500">Resolved</span>
+                  <p className="mt-1 font-mono text-2xl font-medium text-emerald-400">{completedIds.size}</p>
+                </div>
+              </div>
+            )}
+          </div>
+          )}
+
+          {/* ═══════════════ AI EXECUTIONS PAGE ═══════════════ */}
+          {activePage === "AI Executions" && (
+          <div className="relative z-10 flex flex-col gap-6">
+            <div>
+              <h1 className="text-xl font-semibold text-zinc-50">AI Executions</h1>
+              <p className="mt-1 text-sm text-zinc-500">History of all Shopify mutations deployed by the AI</p>
+            </div>
+
+            {completedIds.size > 0 ? (
+              <div className="overflow-hidden rounded-xl border border-zinc-800/80">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-zinc-800/50 hover:bg-transparent">
+                      <TableHead className="text-xs text-zinc-500">Action</TableHead>
+                      <TableHead className="text-xs text-zinc-500">Type</TableHead>
+                      <TableHead className="text-xs text-zinc-500">Status</TableHead>
+                      <TableHead className="text-right text-xs text-zinc-500">Deployed</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {actions.filter(a => completedIds.has(a.id)).map((action) => (
+                      <TableRow key={action.id} className="border-zinc-800/50">
+                        <TableCell className="text-sm font-medium text-zinc-200">{action.title}</TableCell>
+                        <TableCell>
+                          <span className="rounded bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] text-emerald-400">{action.type}</span>
+                        </TableCell>
+                        <TableCell>
+                          <span className="flex items-center gap-1.5 text-xs text-emerald-400">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                            Active in Shopify
+                          </span>
+                        </TableCell>
+                        <TableCell className="text-right text-xs text-zinc-500">Just now</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center gap-4 rounded-xl border border-zinc-800/50 py-16 text-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-zinc-600" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="4 17 10 11 4 5" />
+                  <line x1="12" y1="19" x2="20" y2="19" />
+                </svg>
+                <div>
+                  <p className="text-sm font-medium text-zinc-400">No executions yet</p>
+                  <p className="mt-1 text-xs text-zinc-600">Deploy fixes from the Dashboard to see them here.</p>
+                </div>
+              </div>
+            )}
+          </div>
+          )}
+
+          {/* ═══════════════ SETTINGS PAGE ═══════════════ */}
+          {activePage === "Settings" && (
+          <div className="relative z-10 flex flex-col gap-6">
+            <div>
+              <h1 className="text-xl font-semibold text-zinc-50">Settings</h1>
+              <p className="mt-1 text-sm text-zinc-500">Configure your store connection and AI preferences</p>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {/* Shopify Connection */}
+              <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-6">
+                <h2 className="text-sm font-semibold text-zinc-200">Shopify Connection</h2>
+                <div className="mt-4 flex flex-col gap-3">
+                  <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-[#09090B] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-zinc-300">Store URL</p>
+                      <p className="mt-0.5 font-mono text-xs text-zinc-500">gzh-30.myshopify.com</p>
+                    </div>
+                    <span className="flex items-center gap-1.5 text-xs text-emerald-400">
+                      <span className="size-1.5 rounded-full bg-emerald-400" />
+                      Connected
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-[#09090B] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-zinc-300">API Version</p>
+                      <p className="mt-0.5 font-mono text-xs text-zinc-500">2026-01</p>
+                    </div>
+                    <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">Latest</span>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-[#09090B] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-zinc-300">Access Token</p>
+                      <p className="mt-0.5 font-mono text-xs text-zinc-500">shpua_••••••••••••04ee</p>
+                    </div>
+                    <span className="rounded bg-zinc-800 px-2 py-0.5 text-[10px] text-zinc-400">Masked</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* AI Configuration */}
+              <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/40 p-6">
+                <h2 className="text-sm font-semibold text-zinc-200">AI Configuration</h2>
+                <div className="mt-4 flex flex-col gap-3">
+                  <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-[#09090B] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-zinc-300">Analysis Engine</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">Deterministic edge heuristics (6 models)</p>
+                    </div>
+                    <span className="rounded bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-400">Active</span>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-[#09090B] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-zinc-300">Auto-execute</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">Require manual approval before deploying</p>
+                    </div>
+                    <span className="rounded bg-amber-500/10 px-2 py-0.5 text-[10px] text-amber-400">Manual</span>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-[#09090B] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-zinc-300">Dead Stock Threshold</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">50+ units, 0 sales in 30 days</p>
+                    </div>
+                    <span className="font-mono text-xs text-zinc-400">50 units</span>
+                  </div>
+                  <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-[#09090B] px-4 py-3">
+                    <div>
+                      <p className="text-sm text-zinc-300">Shipping Cost Alert</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">Flag when shipping exceeds % of unit price</p>
+                    </div>
+                    <span className="font-mono text-xs text-zinc-400">40%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          )}
         </main>
       </div>
 
