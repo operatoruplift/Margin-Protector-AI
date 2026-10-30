@@ -2,6 +2,12 @@
   "name": "hackathon-1",
   "version": "0.1.0",
   "private": true,
+  "description": "Shopify profit-leak audit dashboard with six deterministic margin heuristics.",
+  "homepage": "https://marginprotectorai.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/operatoruplift/Margin-Protector-AI.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
