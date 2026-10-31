@@ -1,5 +1,6 @@
 {
   "name": "hackathon-1",
+  "license": "MIT",
   "version": "0.1.0",
   "private": true,
   "description": "Shopify profit-leak audit dashboard with six deterministic margin heuristics.",

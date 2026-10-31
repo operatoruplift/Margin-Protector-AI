@@ -17,6 +17,7 @@
 <img src="https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white&labelColor=09090B" alt="React 19">
 <img src="https://img.shields.io/badge/Tailwind_CSS-4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white&labelColor=09090B" alt="Tailwind CSS 4">
 <img src="https://img.shields.io/badge/Shopify_Admin_API-2026--01-7AB55C?style=flat-square&logo=shopify&logoColor=white&labelColor=09090B" alt="Shopify Admin API 2026-01">
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-6F6163?style=flat-square&labelColor=09090B" alt="License: MIT"></a>
 
 <h3>See where a store loses margin, and the math behind every fix.</h3>
 
@@ -214,6 +215,6 @@ flowchart LR
 
 <br>
 
-<p align="center"><sub>No license file is published with this repository yet. The demo store, its products, orders and customers are fictional.</sub></p>
+<p align="center"><sub>The code is MIT licensed (see <a href="LICENSE">LICENSE</a>), as the original README intended. The demo store, its products, orders and customers are fictional.</sub></p>
 
 <p align="center"><sub>Built by <a href="https://rvaclassic.xyz">Matt Sim</a>, founder of <a href="https://operatoruplift.com">Operator Uplift</a>. More builds at <a href="https://github.com/operatoruplift">github.com/operatoruplift</a>. Want one built for your product? <a href="https://cal.com/rvaclassic/15min">Book a 15-minute call</a>.</sub></p>
